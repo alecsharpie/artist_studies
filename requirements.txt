@@ -3,3 +3,5 @@ openai
 numpy
 pandas
 wikipediaapi
+umap-learn
+torch
