@@ -2,6 +2,7 @@ python-dotenv
 openai
 numpy
 pandas
-wikipediaapi
+Wikipedia-API
 umap-learn
 torch
+git+https://github.com/openai/CLIP.git
