@@ -35,15 +35,17 @@ class ArtLoader:
                           exclude_list,
                           num_artists=None,
                           preprocessor=None,
-                          shape=(224, 224)):
+                          shape=(224, 224),
+                          scale = None):
         """set the path to the data directory
         loop through all artists and load images
         optionally process, eg for clip"""
         self.data_path = data_path
         self.preprocessor = preprocessor
 
-        # invert scale
-        #scale = 1 / scale
+        if scale:
+            # invert scale
+            scale = 1 / scale
 
         self.art_list = []
         self.array_art_list = []
@@ -73,8 +75,9 @@ class ArtLoader:
         for artist in tqdm(self.all_artists_paths):
 
             for art in self.get_all_from_artist(artist):
-                # new_width = int(art.size[0] / scale)
-                # new_height = int(art.size[1] / scale)
+                if scale:
+                    shape[0] = int(art.size[0] / scale)
+                    shape[1] = int(art.size[1] / scale)
 
                 # which is faster resize array or resize image
 
@@ -86,10 +89,11 @@ class ArtLoader:
                         art.resize([shape[0], shape[1]], Image.ANTIALIAS))
                     self.preprocessed_art_list.append(img)
                 else:
-                    self.art_list.append(art)
+                    self.art_list.append(art.resize([shape[0], shape[1]], Image.ANTIALIAS))
 
         if preprocessor:
             self.preprocessed_art_list = np.stack(self.preprocessed_art_list)
         else:
-            self.artist_list = np.array(self.artist_list, dtype=object)
+            self.art_list = np.array(self.art_list, dtype=object)
+        self.artist_list = np.array(self.artist_list, dtype=object)
         self.array_art_list = np.array(self.array_art_list)
