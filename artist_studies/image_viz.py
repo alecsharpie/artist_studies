@@ -10,11 +10,11 @@ def show_xy_images(x_coords, y_coords, img_list, image_zoom=1):
     fig, ax = plt.subplots(1,1, figsize=(16, 16))
     artists = []
     for x_coord, y_coord, img in tqdm(zip(x_coords, y_coords, img_list)):
-        c_img = resize(img_to_array(img), [50,50]) / 255.0
+        c_img = resize(img, [50,50])
         img = OffsetImage(c_img, zoom=image_zoom)
         ab = AnnotationBbox(img, (x_coord, y_coord),
                             xycoords='data',
                             frameon=False)
         artists.append(ax.add_artist(ab))
-    ax.update_datalim(np.stack(x_coords, y_coords))
+    ax.update_datalim(np.stack([x_coords, y_coords], axis=1))
     ax.autoscale()
