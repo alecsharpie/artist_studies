@@ -16,7 +16,7 @@ def encode_texts(texts_list, model):
 
 
 def get_modifier_influence(modifier, base_prompts, model):
-    """Encode text to clip embeddings
+    """encode text to clip embeddings
     calculate the cosine similarity matrix
     slice matrix with index to get respective prompts inverted similarity
     """

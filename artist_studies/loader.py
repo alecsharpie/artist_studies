@@ -21,14 +21,15 @@ class ArtLoader:
         """read in images from the prompts:
         'A beautiful painting of a waterlily pond, {artist}, Trending on artstation',
         'A beautiful painting of a building in a serene landscape, {artist}, Trending on artstation'
-        for a particluar artist"""
+        for a particular artist"""
+        #print(f'Artist Name: {artist_name}')
         all_img_paths = os.listdir(f'{self.data_path}/{artist_name}')
         pond_img_list = [
             load_img(f'{self.data_path}/{artist_name}/{img_path}').convert(
                 'RGB') for img_path in all_img_paths
             if img_path.endswith('png')
         ]
-        return np.array(pond_img_list)
+        return np.array(pond_img_list, dtype=object)
 
     def get_image_folders(self,
                           data_path,
@@ -64,7 +65,7 @@ class ArtLoader:
             ]
         else:
             self.all_artists_paths = []
-            batches = os.listdir(self.data_path)
+            batches = [path for path in os.listdir(self.data_path) if '.' not in path]
             for batch in batches:
                 for artist_path in os.listdir(f'{self.data_path}/{batch}'):
                     if artist_path not in exclude_list:
@@ -88,8 +89,8 @@ class ArtLoader:
                     img = self.preprocessor(
                         art.resize([shape[0], shape[1]], Image.ANTIALIAS))
                     self.preprocessed_art_list.append(img)
-                else:
-                    self.art_list.append(art.resize([shape[0], shape[1]], Image.ANTIALIAS))
+                #else:
+                #    self.art_list.append(art.resize([shape[0], shape[1]], Image.ANTIALIAS))
 
         if preprocessor:
             self.preprocessed_art_list = np.stack(self.preprocessed_art_list)
