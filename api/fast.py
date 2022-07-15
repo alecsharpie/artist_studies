@@ -11,6 +11,14 @@ from artist_studies.influence import get_modifier_influence
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 model, _preprocess = clip.load("ViT-B/32", device=device, jit=False)
