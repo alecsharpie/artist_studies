@@ -1,6 +1,7 @@
 raw_data/
 data/
 models/
+results/
 .DS_Store
 .env
 */.ipynb_checkpoints/
